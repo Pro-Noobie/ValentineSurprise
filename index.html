@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Main View - PINK Valentine Pattern Background */
+        #mainView {
+            min-height: 100vh;
+            background-image: url('pink_background.png');
+            background-size: 400px;
+            background-repeat: repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .limerick {
+            font-size: 1.8rem;
+            line-height: 1.8;
+            color: #8B0000;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 120px;
+            width: 100%;
+        }
+
+        button {
+            padding: 18px 50px;
+            font-size: 1.5rem;
+            font-family: 'Georgia', serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Yes Button - 1 SECOND ease transition, floating, white border, gradient glow */
+        #yesBtn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+            position: relative;
+            border: 3px solid white;
+            box-shadow:
+                0 8px 15px rgba(0, 0, 0, 0.2),
+                0 4px 20px rgba(255, 107, 157, 0.3);
+            animation: gentleFloat 3s ease-in-out infinite;
+            transition: all 1s ease;
+        }
+
+        /* Gentle floating animation */
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* SOFTER GRADIENT GLOW: Pink to Wine Red on hover/tap */
+        #yesBtn:hover,
+        #yesBtn:active {
+            background: linear-gradient(135deg, #ff1493 0%, #8b0000 100%);
+            border: 3px solid white;
+            box-shadow:
+                0 0 15px rgba(255, 20, 147, 0.5),
+                0 0 30px rgba(139, 0, 0, 0.4),
+                0 0 45px rgba(255, 105, 180, 0.3),
+                0 12px 25px rgba(0, 0, 0, 0.3);
+            transform: scale(1.15) translateY(-5px);
+            animation: pulseGlowSoft 1.5s ease-in-out infinite;
+        }
+
+        /* Softer pulsing glow effect */
+        @keyframes pulseGlowSoft {
+            0%, 100% {
+                box-shadow:
+                    0 0 15px rgba(255, 20, 147, 0.5),
+                    0 0 30px rgba(139, 0, 0, 0.4),
+                    0 0 45px rgba(255, 105, 180, 0.3);
+            }
+            50% {
+                box-shadow:
+                    0 0 20px rgba(255, 20, 147, 0.6),
+                    0 0 40px rgba(139, 0, 0, 0.5),
+                    0 0 60px rgba(255, 105, 180, 0.4);
+            }
+        }
+
+        /* No button with 1s ease transition */
+        #noBtn {
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            color: #666;
+            position: fixed;
+            z-index: 10;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: all 1s ease;
+        }
+
+        /* Yes View - BABY ELEPHANTS Blue Background */
+        #yesView {
+            min-height: 100vh;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            background-image: url('blue_background.png');
+            background-size: 300px;
+            background-repeat: repeat;
+        }
+
+        /* Collage background - for additional cute images */
+        .collage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .collage img {
+            position: absolute;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            object-fit: cover;
+            animation: float 20s infinite ease-in-out;
+            opacity: 0.9;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        /* Floating animation for collage images */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(2deg); }
+            50% { transform: translateY(-10px) rotate(-2deg); }
+            75% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        /* Poem frame - Pastel Blue background */
+        .poem-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #B0D4F1 0%, #A8DADC 100%);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 700px;
+            width: 90%;
+            z-index: 5;
+            border: 10px solid rgba(255, 255, 255, 0.9);
+            opacity: 0;
+            transition: all 1.5s ease-out;
+        }
+
+        .poem-frame.revealed {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .poem {
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #2c3e50;
+            text-align: center;
+            font-style: italic;
+            white-space: pre-line;
+        }
+
+        /* HUGE Balloon styles - covers entire screen */
+        .balloon {
+            position: fixed;
+            width: 220px;
+            height: 280px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: 100;
+            bottom: 0;
+            box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.1),
+                        0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: floatUpFast 6s ease-in forwards;
+        }
+
+        .balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 25%;
+            width: 40px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        @keyframes floatUpFast {
+            0% {
+                bottom: 0;
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                bottom: 120vh;
+                opacity: 0;
+                transform: translateX(30px) rotate(15deg);
+            }
+        }
+
+        /* Music control */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .music-control:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+
+        /* Fade transition */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .limerick {
+                font-size: 1.3rem;
+                padding: 20px;
+            }
+
+            button {
+                padding: 15px 35px;
+                font-size: 1.2rem;
+            }
+
+            .poem-frame {
+                padding: 30px;
+            }
+
+            .poem {
+                font-size: 1.1rem;
+            }
+
+            .balloon {
+                width: 160px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main View with Limerick -->
+    <div id="mainView">
+        <div class="content">
+            <div class="limerick">
+                There once was a heart set aflame,<br>
+                Every beat softly whispered your name.<br>
+                Through joy and through time,<br>
+                One question feels prime:<br>
+                So please… will you be my valentine?
+            </div>
+            <div class="buttons">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yes View with Poem and Background -->
+    <div id="yesView">
+        <!-- Collage for extra decorative images -->
+        <div class="collage" id="collage"></div>
+
+        <!-- Poem frame (centered) - HIDDEN until balloons finish -->
+        <div class="poem-frame" id="poemFrame">
+            <div class="poem">
+There once was a love tried by time,
+Not fair as the stars, yet sublime.
+Though summers may fade,
+And roses feel staged,
+No glow outshines yours, so uniquely mine.
+
+Yes, Your Highness, your quiet elegance gleams anywhere,
+And your laughter makes light everywhere.
+If beauty be true,
+It lives just in you—
+In moments so honest and rare;
+I love you more than I know how to share.
+            </div>
+        </div>
+
+        <!-- Music control -->
+        <div class="music-control" id="musicControl">Click to Play Music</div>
+    </div>
+
+    <!-- Hidden YouTube iframe for music -->
+    <div id="musicContainer" style="display: none;"></div>
+
+    <script>
+        // Element references
+        const mainView = document.getElementById('mainView');
+        const yesView = document.getElementById('yesView');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const musicControl = document.getElementById('musicControl');
+        const collage = document.getElementById('collage');
+        const poemFrame = document.getElementById('poemFrame');
+        const musicContainer = document.getElementById('musicContainer');
+
+        // Cute cartoon images for the collage - baby elephants and teddy bears
+        const collageImages = [
+            // Cute cartoon style images
+            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300',
+            'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=300',
+            'https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?w=300',
+            'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?w=300'
+        ];
+
+        // Create collage with cute images
+        function createCollage() {
+            for (let i = 0; i < 12; i++) {
+                const img = document.createElement('img');
+                img.src = collageImages[i % collageImages.length];
+
+                const randomLeft = Math.random() * 80;
+                const randomTop = Math.random() * 80;
+                const randomSize = 150 + Math.random() * 100;
+
+                img.style.top = randomTop + '%';
+                img.style.left = randomLeft + '%';
+                img.style.width = randomSize + 'px';
+                img.style.height = randomSize + 'px';
+                img.style.animationDelay = (i * 2) + 's';
+
+                img.onerror = function() {
+                    this.style.display = 'none';
+                };
+
+                collage.appendChild(img);
+            }
+        }
+
+        // Evasive "No" button behavior - STAYS ON SCREEN
+        function moveNoButton(e) {
+            e.preventDefault();
+
+            const btn = noBtn;
+            const btnWidth = btn.offsetWidth;
+            const btnHeight = btn.offsetHeight;
+
+            // Calculate safe boundaries (keep button fully visible)
+            const maxX = window.innerWidth - btnWidth - 40;
+            const maxY = window.innerHeight - btnHeight - 40;
+
+            // Generate random position within safe bounds
+            const randomX = Math.max(40, Math.random() * maxX);
+            const randomY = Math.max(40, Math.random() * maxY);
+
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+
+        // Set initial position for No button
+        function initializeNoButton() {
+            const yesRect = yesBtn.getBoundingClientRect();
+            noBtn.style.left = (yesRect.right + 30) + 'px';
+            noBtn.style.top = yesRect.top + 'px';
+        }
+
+        // Event listeners for No button - works on hover AND touch
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('touchstart', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
+
+        // Create balloons - 60 huge balloons to cover entire screen
+        function createBalloons() {
+            const colors = ['#FFB6C1', '#FF69B4', '#FFC0CB', '#DDA0DD', '#E6E6FA', '#B0E0E6', '#FFE4E1', '#F0E68C', '#FFDAB9', '#E0B0FF'];
+            const balloonCount = 60;
+
+            const balloonWidth = 220;
+            const screenWidth = window.innerWidth;
+            const balloonsPerRow = Math.ceil(screenWidth / balloonWidth) + 3;
+
+            for (let i = 0; i < balloonCount; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'balloon';
+                    balloon.style.backgroundColor = colors[i % colors.length];
+
+                    const row = Math.floor(i / balloonsPerRow);
+                    const col = i % balloonsPerRow;
+                    const leftPosition = (col * (100 / balloonsPerRow)) + (Math.random() * 8 - 4);
+
+                    balloon.style.left = leftPosition + '%';
+                    balloon.style.bottom = (-row * 60) + 'px';
+
+                    const duration = 5 + Math.random() * 2;
+                    balloon.style.animationDuration = duration + 's';
+                    balloon.style.animationDelay = (Math.random() * 1) + 's';
+
+                    yesView.appendChild(balloon);
+
+                    // Remove balloon after animation
+                    setTimeout(() => {
+                        balloon.remove();
+                    }, (duration + 2) * 1000);
+                }, i * 50);
+            }
+
+            // Reveal poem after balloons float up (7 seconds)
+            setTimeout(() => {
+                poemFrame.classList.add('revealed');
+            }, 7000);
+        }
+
+        // WORKING MUSIC - YouTube Embed
+        let musicPlaying = false;
+        let youtubePlayer = null;
+
+        musicControl.addEventListener('click', () => {
+            if (!youtubePlayer) {
+                const iframe = document.createElement('iframe');
+                iframe.width = '0';
+                iframe.height = '0';
+                iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
+                iframe.frameBorder = '0';
+                iframe.allow = 'autoplay; encrypted-media';
+                iframe.style.display = 'none';
+
+                musicContainer.appendChild(iframe);
+                youtubePlayer = iframe;
+
+                musicControl.textContent = 'Music Playing';
+                musicPlaying = true;
+            } else {
+                if (musicPlaying) {
+                    musicContainer.innerHTML = '';
+                    youtubePlayer = null;
+                    musicControl.textContent = 'Click to Play Music';
+                    musicPlaying = false;
+                } else {
+                    const iframe = document.createElement('iframe');
+                    iframe.width = '0';
+                    iframe.height = '0';
+                    iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
+                    iframe.frameBorder = '0';
+                    iframe.allow = 'autoplay; encrypted-media';
+                    iframe.style.display = 'none';
+
+                    musicContainer.appendChild(iframe);
+                    youtubePlayer = iframe;
+                    musicControl.textContent = 'Music Playing';
+                    musicPlaying = true;
+                }
+            }
+        });
+
+        // Yes button click
+        yesBtn.addEventListener('click', () => {
+            mainView.style.display = 'none';
+            noBtn.style.display = 'none';
+
+            yesView.style.display = 'block';
+            yesView.classList.add('fade-in');
+
+            createCollage();
+            createBalloons();
+
+            // Show music control after 1 second
+            setTimeout(() => {
+                musicControl.style.display = 'block';
+            }, 1000);
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initializeNoButton();
+        });
+    </script>
+</body>
+</html>
