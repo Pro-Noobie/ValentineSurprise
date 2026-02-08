@@ -17,12 +17,13 @@
             min-height: 100vh;
         }
 
-        /* Main View - PINK Valentine Pattern Background */
+        /* Main View - PINK Valentine Pattern Background - STRETCHED to cover */
         #mainView {
             min-height: 100vh;
             background-image: url('pink_background.png');
-            background-size: 400px;
-            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -72,7 +73,7 @@
             font-weight: bold;
         }
 
-        /* Yes Button - 1 SECOND ease transition, floating, white border, gradient glow */
+        /* Yes Button - 1.5 SECOND ease-in-out transition (slower, smoother) */
         #yesBtn {
             background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
             color: white;
@@ -82,7 +83,7 @@
                 0 8px 15px rgba(0, 0, 0, 0.2),
                 0 4px 20px rgba(255, 107, 157, 0.3);
             animation: gentleFloat 3s ease-in-out infinite;
-            transition: all 1s ease;
+            transition: all 1.5s ease-in-out;
         }
 
         /* Gentle floating animation */
@@ -125,63 +126,35 @@
             }
         }
 
-        /* No button with 1s ease transition */
+        /* No button - 0.5s ease transition (faster) */
         #noBtn {
             background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
             color: #666;
             position: fixed;
             z-index: 10;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            transition: all 1s ease;
+            transition: all 0.5s ease;
         }
 
-        /* Yes View - BABY ELEPHANTS Blue Background */
+        /* Yes View - BABY ELEPHANTS Blue Background - STRETCHED to cover */
         #yesView {
             min-height: 100vh;
             display: none;
             position: relative;
             overflow: hidden;
             background-image: url('blue_background.png');
-            background-size: 300px;
-            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* Collage background - for additional cute images */
-        .collage {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .collage img {
-            position: absolute;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
-            object-fit: cover;
-            animation: float 20s infinite ease-in-out;
-            opacity: 0.9;
-            filter: brightness(1.1) contrast(1.1);
-        }
-
-        /* Floating animation for collage images */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-20px) rotate(2deg); }
-            50% { transform: translateY(-10px) rotate(-2deg); }
-            75% { transform: translateY(-15px) rotate(1deg); }
-        }
-
-        /* Poem frame - Pastel Blue background */
+        /* Poem frame - 65% opacity (translucent) */
         .poem-frame {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(135deg, #B0D4F1 0%, #A8DADC 100%);
+            background: linear-gradient(135deg, rgba(176, 212, 241, 0.65) 0%, rgba(168, 218, 220, 0.65) 100%);
             padding: 50px;
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -191,6 +164,7 @@
             border: 10px solid rgba(255, 255, 255, 0.9);
             opacity: 0;
             transition: all 1.5s ease-out;
+            backdrop-filter: blur(10px);
         }
 
         .poem-frame.revealed {
@@ -334,9 +308,6 @@
 
     <!-- Yes View with Poem and Background -->
     <div id="yesView">
-        <!-- Collage for extra decorative images -->
-        <div class="collage" id="collage"></div>
-
         <!-- Poem frame (centered) - HIDDEN until balloons finish -->
         <div class="poem-frame" id="poemFrame">
             <div class="poem">
@@ -356,7 +327,7 @@ I love you more than I know how to share.
         </div>
 
         <!-- Music control -->
-        <div class="music-control" id="musicControl">Click to Play Music</div>
+        <div class="music-control" id="musicControl">Music Playing</div>
     </div>
 
     <!-- Hidden YouTube iframe for music -->
@@ -369,42 +340,8 @@ I love you more than I know how to share.
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const musicControl = document.getElementById('musicControl');
-        const collage = document.getElementById('collage');
         const poemFrame = document.getElementById('poemFrame');
         const musicContainer = document.getElementById('musicContainer');
-
-        // Cute cartoon images for the collage - baby elephants and teddy bears
-        const collageImages = [
-            // Cute cartoon style images
-            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300',
-            'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=300',
-            'https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?w=300',
-            'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?w=300'
-        ];
-
-        // Create collage with cute images
-        function createCollage() {
-            for (let i = 0; i < 12; i++) {
-                const img = document.createElement('img');
-                img.src = collageImages[i % collageImages.length];
-
-                const randomLeft = Math.random() * 80;
-                const randomTop = Math.random() * 80;
-                const randomSize = 150 + Math.random() * 100;
-
-                img.style.top = randomTop + '%';
-                img.style.left = randomLeft + '%';
-                img.style.width = randomSize + 'px';
-                img.style.height = randomSize + 'px';
-                img.style.animationDelay = (i * 2) + 's';
-
-                img.onerror = function() {
-                    this.style.display = 'none';
-                };
-
-                collage.appendChild(img);
-            }
-        }
 
         // Evasive "No" button behavior - STAYS ON SCREEN
         function moveNoButton(e) {
@@ -479,45 +416,38 @@ I love you more than I know how to share.
             }, 7000);
         }
 
-        // WORKING MUSIC - YouTube Embed
+        // Music state
         let musicPlaying = false;
         let youtubePlayer = null;
 
-        musicControl.addEventListener('click', () => {
+        // Function to start music - AUTOPLAY on Yes click
+        function startMusic() {
             if (!youtubePlayer) {
                 const iframe = document.createElement('iframe');
                 iframe.width = '0';
                 iframe.height = '0';
-                iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
+                // Start at 10 seconds into the song
+                iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&start=10&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
                 iframe.frameBorder = '0';
                 iframe.allow = 'autoplay; encrypted-media';
                 iframe.style.display = 'none';
 
                 musicContainer.appendChild(iframe);
                 youtubePlayer = iframe;
-
-                musicControl.textContent = 'Music Playing';
                 musicPlaying = true;
-            } else {
-                if (musicPlaying) {
-                    musicContainer.innerHTML = '';
-                    youtubePlayer = null;
-                    musicControl.textContent = 'Click to Play Music';
-                    musicPlaying = false;
-                } else {
-                    const iframe = document.createElement('iframe');
-                    iframe.width = '0';
-                    iframe.height = '0';
-                    iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
-                    iframe.frameBorder = '0';
-                    iframe.allow = 'autoplay; encrypted-media';
-                    iframe.style.display = 'none';
+                musicControl.textContent = 'Music Playing';
+            }
+        }
 
-                    musicContainer.appendChild(iframe);
-                    youtubePlayer = iframe;
-                    musicControl.textContent = 'Music Playing';
-                    musicPlaying = true;
-                }
+        // Toggle music on/off
+        musicControl.addEventListener('click', () => {
+            if (musicPlaying) {
+                musicContainer.innerHTML = '';
+                youtubePlayer = null;
+                musicControl.textContent = 'Click to Play Music';
+                musicPlaying = false;
+            } else {
+                startMusic();
             }
         });
 
@@ -529,8 +459,10 @@ I love you more than I know how to share.
             yesView.style.display = 'block';
             yesView.classList.add('fade-in');
 
-            createCollage();
             createBalloons();
+
+            // Autoplay music immediately
+            startMusic();
 
             // Show music control after 1 second
             setTimeout(() => {
