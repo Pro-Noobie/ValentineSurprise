@@ -140,12 +140,12 @@
             }
         }
 
-        /* No button - 0.5s ease transition (faster) */
+        /* No button - starts in normal flow, switches to fixed when moving */
         #noBtn {
             background: linear-gradient(135deg, #f5c2c2 0%, #7a7979 100%);
             border: 3px solid white;
             color: rgb(255, 255, 255);
-            position: fixed;
+            position: relative;
             z-index: 10;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.5s ease;
@@ -383,6 +383,15 @@
             e.preventDefault();
 
             const btn = noBtn;
+
+            // Switch to fixed position on first move
+            if (btn.style.position !== 'fixed') {
+                const rect = btn.getBoundingClientRect();
+                btn.style.position = 'fixed';
+                btn.style.left = rect.left + 'px';
+                btn.style.top = rect.top + 'px';
+            }
+
             const btnWidth = btn.offsetWidth;
             const btnHeight = btn.offsetHeight;
 
@@ -396,13 +405,6 @@
 
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
-        }
-
-        // Set initial position for No button
-        function initializeNoButton() {
-            const yesRect = yesBtn.getBoundingClientRect();
-            noBtn.style.left = (yesRect.right + 30) + 'px';
-            noBtn.style.top = yesRect.top + 'px';
         }
 
         // Event listeners for No button - works on hover AND touch
@@ -523,7 +525,6 @@
 
         // Initialize on page load
         window.addEventListener('load', () => {
-            initializeNoButton();
             updateMusicIcon();
         });
     </script>
