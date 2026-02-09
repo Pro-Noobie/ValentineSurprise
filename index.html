@@ -434,7 +434,7 @@
             const balloonWidth = 150;
             const screenWidth = window.innerWidth;
             const balloonsPerRow = Math.ceil(screenWidth / balloonWidth) + 3;
-            const spawnDelay = 60; // ms between each balloon spawn (increased)
+            const spawnDelay = 35; // ms between each balloon spawn (faster)
 
             for (let i = 0; i < balloonCount; i++) {
                 setTimeout(() => {
@@ -449,8 +449,8 @@
                     balloon.style.left = leftPosition + '%';
                     balloon.style.bottom = (-row * 60) + 'px';
 
-                    // Increased rise time (7-9 seconds instead of 5-7)
-                    const duration = 7 + Math.random() * 2;
+                    // Shorter rise time (4-5 seconds)
+                    const duration = 4 + Math.random() * 1;
                     balloon.style.animationDuration = duration + 's';
                     balloon.style.animationDelay = (Math.random() * 1) + 's';
 
