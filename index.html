@@ -90,7 +90,7 @@
             z-index: 1;
         }
 
-        /* Gradient border pseudo-element - INVERTED (red where button is pink, pink where button is red) */
+        /* Neon baby pink border on hover */
         #yesBtn::before {
             content: '';
             position: absolute;
@@ -98,11 +98,12 @@
             left: -6px;
             right: -6px;
             bottom: -6px;
-            background: linear-gradient(315deg, #fb6fb9 0%, #720c0c 100%);
+            background: #FFB6C1;
             border-radius: 55px;
             z-index: -1;
             opacity: 0;
             transition: opacity 0.5s ease;
+            box-shadow: 0 0 15px #FFB6C1, 0 0 30px #FF69B4;
         }
 
         /* Show gradient border on hover */
@@ -488,8 +489,8 @@
                 const iframe = document.createElement('iframe');
                 iframe.width = '0';
                 iframe.height = '0';
-                // Start at 10 seconds into the song
-                iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&start=10&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
+                // Start at 11 seconds into the song (synced with beat)
+                iframe.src = 'https://www.youtube.com/embed/1SPP-nIbmu4?autoplay=1&start=11&loop=1&playlist=1SPP-nIbmu4&enablejsapi=1';
                 iframe.frameBorder = '0';
                 iframe.allow = 'autoplay; encrypted-media';
                 iframe.style.display = 'none';
