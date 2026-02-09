@@ -76,7 +76,7 @@
             font-weight: bold;
         }
 
-        /* Yes Button - 1.5 SECOND ease-in-out transition (slower, smoother) */
+        /* Yes Button - 1 second scale transition on hover */
         #yesBtn {
             background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
             color: white;
@@ -85,53 +85,47 @@
             box-shadow:
                 0 8px 15px rgba(0, 0, 0, 0.2),
                 0 4px 20px rgba(255, 107, 157, 0.3);
-            animation: gentleFloat 3s ease-in-out infinite;
-            transition: all 1s ease-in-out;
+            animation: gentlePulse 2s ease-in-out infinite;
+            transition: transform 1s ease-in-out, background 0.5s ease;
+            transform: scale(1);
         }
 
-        /* Gentle floating animation */
-        @keyframes gentleFloat {
-
-            0%,
-            100% {
-                transform: translateY(0px);
+        /* Gentle pulsing shadow animation (no transform) */
+        @keyframes gentlePulse {
+            0%, 100% {
+                box-shadow:
+                    0 8px 15px rgba(0, 0, 0, 0.2),
+                    0 4px 20px rgba(255, 107, 157, 0.3);
             }
-
             50% {
-                transform: translateY(-10px);
+                box-shadow:
+                    0 12px 25px rgba(0, 0, 0, 0.25),
+                    0 6px 30px rgba(255, 107, 157, 0.5);
             }
         }
 
-        /* SOFTER GRADIENT GLOW: Pink to Wine Red on hover/tap */
+        /* GRADIENT GLOW on hover - scale takes 1 second */
         #yesBtn:hover,
         #yesBtn:active {
             background: linear-gradient(135deg, #ff1493 0%, #8b0000 100%);
             border: 3px solid white;
-            box-shadow:
-                0 0 15px rgba(255, 20, 147, 0.5),
-                0 0 30px rgba(139, 0, 0, 0.4),
-                0 0 45px rgba(255, 105, 180, 0.3),
-                0 12px 25px rgba(0, 0, 0, 0.3);
-            transform: scale(1.15) translateY(-5px);
-            animation: none;
+            transform: scale(1.15);
+            animation: pulseGlowHover 1.5s ease-in-out infinite;
         }
 
-        /* Softer pulsing glow effect */
-        @keyframes pulseGlowSoft {
-
-            0%,
-            100% {
+        /* Pulsing glow effect on hover */
+        @keyframes pulseGlowHover {
+            0%, 100% {
                 box-shadow:
                     0 0 15px rgba(255, 20, 147, 0.5),
                     0 0 30px rgba(139, 0, 0, 0.4),
                     0 0 45px rgba(255, 105, 180, 0.3);
             }
-
             50% {
                 box-shadow:
-                    0 0 20px rgba(255, 20, 147, 0.6),
-                    0 0 40px rgba(139, 0, 0, 0.5),
-                    0 0 60px rgba(255, 105, 180, 0.4);
+                    0 0 25px rgba(255, 20, 147, 0.7),
+                    0 0 50px rgba(139, 0, 0, 0.6),
+                    0 0 70px rgba(255, 105, 180, 0.5);
             }
         }
 
