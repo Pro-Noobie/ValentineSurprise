@@ -81,7 +81,7 @@
             background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
             color: white;
             position: relative;
-            border: 3px solid white;
+            border: 15px rgba(255, 20, 147, 0.5);
             box-shadow:
                 0 8px 15px rgba(0, 0, 0, 0.2),
                 0 4px 20px rgba(255, 107, 157, 0.3);
@@ -92,11 +92,14 @@
 
         /* Gentle pulsing shadow animation (no transform) */
         @keyframes gentlePulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow:
                     0 8px 15px rgba(0, 0, 0, 0.2),
                     0 4px 20px rgba(255, 107, 157, 0.3);
             }
+
             50% {
                 box-shadow:
                     0 12px 25px rgba(0, 0, 0, 0.25),
@@ -108,19 +111,22 @@
         #yesBtn:hover,
         #yesBtn:active {
             background: linear-gradient(135deg, #ff1493 0%, #8b0000 100%);
-            border: 3px solid white;
+            border: 15px rgba(255, 20, 147, 0.5);
             transform: scale(1.15);
             animation: pulseGlowHover 1.5s ease-in-out infinite;
         }
 
         /* Pulsing glow effect on hover */
         @keyframes pulseGlowHover {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow:
                     0 0 15px rgba(255, 20, 147, 0.5),
                     0 0 30px rgba(139, 0, 0, 0.4),
                     0 0 45px rgba(255, 105, 180, 0.3);
             }
+
             50% {
                 box-shadow:
                     0 0 25px rgba(255, 20, 147, 0.7),
@@ -131,8 +137,9 @@
 
         /* No button - 0.5s ease transition (faster) */
         #noBtn {
-            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
-            color: #666;
+            background: linear-gradient(135deg, #ffffff 0%, #7a7979 100%);
+            border: 3px solid white;
+            color: rgb(44, 43, 43);
             position: fixed;
             z-index: 10;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
