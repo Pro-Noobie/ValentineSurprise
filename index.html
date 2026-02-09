@@ -90,7 +90,7 @@
             z-index: 1;
         }
 
-        /* Gradient border pseudo-element (hidden by default) - INVERTED */
+        /* Gradient border pseudo-element - CONTRASTING colors (white to gold) */
         #yesBtn::before {
             content: '';
             position: absolute;
@@ -98,7 +98,7 @@
             left: -6px;
             right: -6px;
             bottom: -6px;
-            background: linear-gradient(135deg, #720c0c 0%, #fb6fb9 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #ffd700 100%);
             border-radius: 55px;
             z-index: -1;
             opacity: 0;
@@ -426,7 +426,7 @@
         noBtn.addEventListener('touchstart', moveNoButton);
         noBtn.addEventListener('click', moveNoButton);
 
-        // Create balloons - 60 huge balloons to cover entire screen
+        // Create balloons to cover entire screen
         function createBalloons() {
             const colors = ['#FFB6C1', '#FF69B4', '#FFC0CB', '#DDA0DD', '#E6E6FA', '#B0E0E6', '#FFE4E1', '#F0E68C', '#FFDAB9', '#E0B0FF'];
             const balloonCount = 442;
@@ -434,6 +434,7 @@
             const balloonWidth = 150;
             const screenWidth = window.innerWidth;
             const balloonsPerRow = Math.ceil(screenWidth / balloonWidth) + 3;
+            const spawnDelay = 60; // ms between each balloon spawn (increased)
 
             for (let i = 0; i < balloonCount; i++) {
                 setTimeout(() => {
@@ -448,7 +449,8 @@
                     balloon.style.left = leftPosition + '%';
                     balloon.style.bottom = (-row * 60) + 'px';
 
-                    const duration = 5 + Math.random() * 2;
+                    // Increased rise time (7-9 seconds instead of 5-7)
+                    const duration = 7 + Math.random() * 2;
                     balloon.style.animationDuration = duration + 's';
                     balloon.style.animationDelay = (Math.random() * 1) + 's';
 
@@ -458,13 +460,17 @@
                     setTimeout(() => {
                         balloon.remove();
                     }, (duration + 2) * 1000);
-                }, i * 50);
+                }, i * spawnDelay);
             }
 
-            // Reveal poem after balloons float up (7 seconds)
+            // Calculate when last 2.5 rows start spawning
+            // ~11 balloons per row, 2.5 rows = ~27 balloons
+            // Last 2.5 rows start at balloon index: 442 - 27 = 415
+            // Time: 415 * 60ms = 24900ms
+            const poemRevealTime = (balloonCount - Math.ceil(2.5 * balloonsPerRow)) * spawnDelay;
             setTimeout(() => {
                 poemFrame.classList.add('revealed');
-            }, 7000);
+            }, poemRevealTime);
         }
 
         // Music state
