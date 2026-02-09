@@ -90,27 +90,6 @@
             z-index: 1;
         }
 
-        /* Neon baby pink border on hover */
-        #yesBtn::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            background: #FFB6C1;
-            border-radius: 55px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            box-shadow: 0 0 15px #FFB6C1, 0 0 30px #FF69B4;
-        }
-
-        /* Show gradient border on hover */
-        #yesBtn:hover::before,
-        #yesBtn:active::before {
-            opacity: 1;
-        }
 
         /* Gentle pulsing shadow animation (no transform) */
         @keyframes gentlePulse {
@@ -129,13 +108,17 @@
             }
         }
 
-        /* GRADIENT GLOW on hover - scale takes 1 second */
+        /* GRADIENT GLOW on hover - scale takes 1 second, neon baby pink border */
         #yesBtn:hover,
         #yesBtn:active {
             background: linear-gradient(135deg, #fb6fb9 0%, #720c0c 100%);
-            border: 3px solid transparent;
+            border: 5px solid #FFB6C1;
             transform: scale(1.15);
             animation: pulseGlowHover 1s ease-in-out infinite;
+            box-shadow:
+                0 0 15px #FFB6C1,
+                0 0 30px #FF69B4,
+                0 0 45px rgba(255, 105, 180, 0.5);
         }
 
         /* Pulsing glow effect on hover */
