@@ -40,6 +40,7 @@
             max-width: 600px;
         }
 
+        /* Limerick with border */
         .limerick {
             font-size: 1.8rem;
             line-height: 1.8;
@@ -51,6 +52,7 @@
             background: rgba(255, 255, 255, 0.7);
             border-radius: 20px;
             backdrop-filter: blur(5px);
+            border: 8px solid rgba(255, 182, 193, 0.9);
         }
 
         .buttons {
@@ -148,7 +150,7 @@
             background-repeat: no-repeat;
         }
 
-        /* Poem frame - 65% opacity (translucent) */
+        /* Poem frame - 65% opacity, PASTEL BLUE border and text */
         .poem-frame {
             position: absolute;
             top: 50%;
@@ -161,7 +163,7 @@
             max-width: 700px;
             width: 90%;
             z-index: 5;
-            border: 10px solid rgba(255, 255, 255, 0.9);
+            border: 10px solid #A8D8EA;
             opacity: 0;
             transition: all 1.5s ease-out;
             backdrop-filter: blur(10px);
@@ -172,13 +174,15 @@
             opacity: 1;
         }
 
+        /* Poem text - PASTEL BLUE color */
         .poem {
             font-size: 1.4rem;
             line-height: 2;
-            color: #2c3e50;
+            color: #7EC8E3;
             text-align: center;
             font-style: italic;
             white-space: pre-line;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         /* HUGE Balloon styles - covers entire screen */
@@ -230,25 +234,28 @@
             }
         }
 
-        /* Music control */
+        /* Music control - TOP RIGHT, just icons */
         .music-control {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            top: 20px;
+            right: 20px;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.9);
-            padding: 15px 25px;
-            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
             display: none;
+            align-items: center;
+            justify-content: center;
         }
 
         .music-control:hover {
             background: rgba(255, 255, 255, 1);
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         /* Fade transition */
@@ -266,6 +273,7 @@
             .limerick {
                 font-size: 1.3rem;
                 padding: 20px;
+                border-width: 5px;
             }
 
             button {
@@ -275,6 +283,7 @@
 
             .poem-frame {
                 padding: 30px;
+                border-width: 6px;
             }
 
             .poem {
@@ -284,6 +293,12 @@
             .balloon {
                 width: 160px;
                 height: 200px;
+            }
+
+            .music-control {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -326,8 +341,8 @@ I love you more than I know how to share.
             </div>
         </div>
 
-        <!-- Music control -->
-        <div class="music-control" id="musicControl">Music Playing</div>
+        <!-- Music control - just play/pause icon -->
+        <div class="music-control" id="musicControl"></div>
     </div>
 
     <!-- Hidden YouTube iframe for music -->
@@ -420,7 +435,12 @@ I love you more than I know how to share.
         let musicPlaying = false;
         let youtubePlayer = null;
 
-        // Function to start music - AUTOPLAY on Yes click
+        // Update music button icon
+        function updateMusicIcon() {
+            musicControl.textContent = musicPlaying ? '⏸' : '▶';
+        }
+
+        // Function to start music
         function startMusic() {
             if (!youtubePlayer) {
                 const iframe = document.createElement('iframe');
@@ -435,17 +455,22 @@ I love you more than I know how to share.
                 musicContainer.appendChild(iframe);
                 youtubePlayer = iframe;
                 musicPlaying = true;
-                musicControl.textContent = 'Music Playing';
+                updateMusicIcon();
             }
+        }
+
+        // Function to stop music
+        function stopMusic() {
+            musicContainer.innerHTML = '';
+            youtubePlayer = null;
+            musicPlaying = false;
+            updateMusicIcon();
         }
 
         // Toggle music on/off
         musicControl.addEventListener('click', () => {
             if (musicPlaying) {
-                musicContainer.innerHTML = '';
-                youtubePlayer = null;
-                musicControl.textContent = 'Click to Play Music';
-                musicPlaying = false;
+                stopMusic();
             } else {
                 startMusic();
             }
@@ -466,13 +491,14 @@ I love you more than I know how to share.
 
             // Show music control after 1 second
             setTimeout(() => {
-                musicControl.style.display = 'block';
+                musicControl.style.display = 'flex';
             }, 1000);
         });
 
         // Initialize on page load
         window.addEventListener('load', () => {
             initializeNoButton();
+            updateMusicIcon();
         });
     </script>
 </body>
