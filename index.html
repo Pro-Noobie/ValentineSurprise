@@ -88,6 +88,28 @@
             animation: gentlePulse 2s ease-in-out infinite;
             transition: transform 1s ease-in-out, background 0.5s ease;
             transform: scale(1);
+            z-index: 1;
+        }
+
+        /* Gradient border pseudo-element (hidden by default) */
+        #yesBtn::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            background: linear-gradient(135deg, #fb6fb9 0%, #720c0c 100%);
+            border-radius: 55px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Show gradient border on hover */
+        #yesBtn:hover::before,
+        #yesBtn:active::before {
+            opacity: 1;
         }
 
         /* Gentle pulsing shadow animation (no transform) */
@@ -111,7 +133,7 @@
         #yesBtn:hover,
         #yesBtn:active {
             background: linear-gradient(135deg, #fb6fb9 0%, #720c0c 100%);
-            border: 6px solid linear-gradient(135deg, #720c0c 100%, #fb6fb9 0%);
+            border: 3px solid transparent;
             transform: scale(1.15);
             animation: pulseGlowHover 1s ease-in-out infinite;
         }
